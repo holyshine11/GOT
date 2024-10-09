@@ -1,0 +1,8 @@
+{% load i18n admin_urls %}
+<div class="submit-row">
+    {% if show_save %}<input type="submit" value="{% trans '저장' %}" class="default" name="_save" />{% endif %}
+    {% if show_delete_link %}
+        <p class="deletelink-box"><a href="{% url opts|admin_urlname:'delete' original.pk|admin_urlquote %}" class="deletelink">{% trans "삭제" %}</a></p>
+    {% endif %}
+    <input type="button" value="{% trans '취소' %}" onclick="location.href='{% url 'admin:admin_app_profile_changelist' %}'" />
+</div>

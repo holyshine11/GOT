@@ -1,0 +1,216 @@
+{% extends "admin/base_site.html" %} {% load static %} {% load i18n %}
+
+{% block content %}
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputs = document.querySelectorAll(".form-control");
+
+            inputs.forEach(function(input) {
+                input.addEventListener("input", function() {
+                    const errorDiv = this.parentElement.querySelector(".error-message");
+                    if (errorDiv) {
+                        errorDiv.remove();
+                    }
+                });
+            });
+
+            // Submit 버튼 누르기 전에 각 필드에 대해 유효성 검사
+            const form = document.querySelector("form");
+            form.addEventListener("submit", function(event) {
+                let isValid = true;
+                inputs.forEach(function(input) {
+                    if (input.value.trim() === "") {
+                        isValid = false;
+                        if (!input.parentElement.querySelector(".error-message")) {
+                            const errorDiv = document.createElement("div");
+                            errorDiv.classList.add("error-message");
+                            errorDiv.style.color = "red";
+                            errorDiv.textContent = "필수 항목입니다.";
+                            input.parentElement.appendChild(errorDiv);
+                        }
+                    }
+                });
+
+                if (!isValid) {
+                    event.preventDefault();  // 폼 제출을 막음
+                }
+            });
+        });
+    </script>
+</head>
+
+<div class="content">
+    <form method="post" action="{% url 'admin_create' %}">
+        {% csrf_token %}
+        
+        <table class="form-table" style="border-spacing: 10px; text-align: center; width: 100%; margin: 0 auto;">
+            <colgroup>
+                <col style="width: 10%; vertical-align: middle;">
+                <col style="width: 100%; vertical-align: middle;">
+            </colgroup>
+            <tr>
+                <th style="text-align: left; vertical-align: middle;">{{ form.username.label_tag }}</th>
+                <td style="vertical-align: middle; text-align: left;">
+                    <input type="text" 
+                        name="username" 
+                        value="{{ form.username.value|default_if_none:'' }}" 
+                        placeholder="아이디를 입력하세요" 
+                        style="width: 90%;" 
+                        class="form-control">
+                    {% if form.username.errors %}
+                        <div style="color: red;">{{ form.username.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: left; vertical-align: middle;">{{ form.email.label_tag }}</th>
+                <td style="vertical-align: middle; text-align: left;">
+                    <input type="email" 
+                        name="email" 
+                        value="{{ form.email.value|default_if_none:'' }}" 
+                        placeholder="이메일을 입력하세요" 
+                        style="width: 90%;" 
+                        class="form-control">
+                    {% if form.email.errors %}
+                        <div style="color: red;" class="error-message">{{ form.email.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: left; vertical-align: middle;">{{ form.password1.label_tag }}</th>
+                <td style="vertical-align: middle; text-align: left;">
+                    <input type="password" 
+                        name="password1" 
+                        placeholder="비밀번호를 입력하세요" 
+                        style="width: 90%;" 
+                        class="form-control">
+                    {% if form.password1.errors %}
+                        <div style="color: red;">{{ form.password1.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: left; vertical-align: middle;">{{ form.password2.label_tag }}</th>
+                <td style="vertical-align: middle; text-align: left;">
+                    <input type="password" 
+                        name="password2" 
+                        placeholder="비밀번호를 다시 입력하세요" 
+                        style="width: 90%;" 
+                        class="form-control">
+                    {% if form.password2.errors %}
+                        <div style="color: red;">{{ form.password2.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: left; vertical-align: middle;">{{ form.manager_name.label_tag }}</th>
+                <td style="vertical-align: middle; text-align: left;">
+                    <input type="text" 
+                        name="manager_name" 
+                        value="{{ form.manager_name.value|default_if_none:'' }}" 
+                        placeholder="담당자 이름을 입력하세요" 
+                        style="width: 90%;" 
+                        class="form-control">
+                    {% if form.manager_name.errors %}
+                        <div style="color: red;">{{ form.manager_name.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: left; vertical-align: middle;">{{ form.position.label_tag }}</th>
+                <td style="vertical-align: middle; text-align: left;">
+                    <input type="text" 
+                        name="position" 
+                        value="{{ form.position.value|default_if_none:'' }}" 
+                        placeholder="직책을 입력하세요" 
+                        style="width: 90%;" 
+                        class="form-control">
+                    {% if form.position.errors %}
+                        <div style="color: red;">{{ form.position.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: left; vertical-align: middle;">{{ form.company.label_tag }}</th>
+                <td style="vertical-align: middle; text-align: left;">
+                    <input type="text" 
+                        name="company" 
+                        value="{{ form.company.value|default_if_none:'' }}" 
+                        placeholder="회사명을 입력하세요" 
+                        style="width: 90%;" 
+                        class="form-control">
+                    {% if form.company.errors %}
+                        <div style="color: red;">{{ form.company.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: left; vertical-align: middle;">{{ form.department.label_tag }}</th>
+                <td style="vertical-align: middle; text-align: left;">
+                    <input type="text" 
+                        name="department" 
+                        value="{{ form.department.value|default_if_none:'' }}" 
+                        placeholder="부서를 입력하세요" 
+                        style="width: 90%;" 
+                        class="form-control">
+                    {% if form.department.errors %}
+                        <div style="color: red;">{{ form.department.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: left; vertical-align: middle;">{{ form.company_contact.label_tag }}</th>
+                <td style="vertical-align: middle; text-align: left;">
+                    <input type="text" 
+                        name="company_contact" 
+                        value="{{ form.company_contact.value|default_if_none:'' }}" 
+                        placeholder="회사 연락처를 입력하세요" 
+                        style="width: 90%;" 
+                        class="form-control">
+                    {% if form.company_contact.errors %}
+                        <div style="color: red;">{{ form.company_contact.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: left; vertical-align: middle;">{{ form.manager_contact.label_tag }}</th>
+                <td style="vertical-align: middle; text-align: left;">
+                    <input type="text" 
+                        name="manager_contact" 
+                        value="{{ form.manager_contact.value|default_if_none:'' }}" 
+                        placeholder="담당자 연락처를 입력하세요" 
+                        style="width: 90%;" 
+                        class="form-control">
+                    {% if form.manager_contact.errors %}
+                        <div style="color: red;">{{ form.manager_contact.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: left; vertical-align: middle;">{{ form.role.label_tag }}</th>
+                <td style="vertical-align: middle; text-align: left;">
+                    <select name="role" 
+                            style="width: 10%;" 
+                            class="form-control">
+                        {% for choice in form.role.field.choices %}
+                            <option value="{{ choice.0 }}" 
+                                    {% if form.role.value == choice.0 %}selected{% endif %}>
+                                {{ choice.1 }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    {% if form.role.errors %}
+                        <div style="color: red;">{{ form.role.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+        <div class="button-group" style="text-align: center; margin-top: 20px;">
+            <button type="submit" class="default btn-save" style="background-color: #2d4f65; color: white; margin-right: 10px; padding: 10px 20px;">저장</button>
+            <button type="button" onclick="window.location.href='{% url 'admin:admin_app_profile_changelist' %}'" class="default btn-cancel" style="background-color: #81afc6; color: white; padding: 10px 20px;">취소</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

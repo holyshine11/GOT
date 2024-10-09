@@ -1,0 +1,32 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans '관리자 목록' %}</h1>
+<table>
+    <thead>
+        <tr>
+            <th>{% trans '담당자 명' %}</th>
+            <th>{% trans '회사명' %}</th>
+            <th>{% trans '연락처' %}</th>
+            <th>{% trans '역할' %}</th>
+            <th>{% trans '작업' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for admin in admins %}
+        <tr>
+            <td>{{ admin.manager_name }}</td>
+            <td>{{ admin.company }}</td>
+            <td>{{ admin.manager_contact }}</td>
+            <td>{{ admin.role }}</td>
+            <td>
+                <a href="{% url 'admin_detail' admin.user.pk %}">{% trans '상세보기' %}</a> |
+                <a href="{% url 'admin_update' admin.user.pk %}">{% trans '수정' %}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
