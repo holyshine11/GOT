@@ -6,7 +6,6 @@ from .views import AdminRegistrationForm
 
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from .models import Profile
 
 
 @admin.register(MeetingRoom)
@@ -21,5 +20,9 @@ class ProfileAdmin(admin.ModelAdmin):
     def add_view(self, request, form_url='', extra_context=None):
         # 사용자 정의 뷰로 리다이렉트하기 위해 HttpResponseRedirect 사용
         return HttpResponseRedirect(reverse('admin_create'))
+    
+    def changelist_view(self, request, extra_context=None):
+        # 목록 뷰로 사용자 정의 URL로 리다이렉트
+        return HttpResponseRedirect(reverse('admin_list'))
 
 admin.site.register(Profile, ProfileAdmin)
