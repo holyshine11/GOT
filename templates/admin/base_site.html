@@ -2,7 +2,15 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+{% block title %}호텔 미팅룸 {{ title }}{% endblock %}
+
+
+{% block extrahead %}
+    <!-- 파비콘 링크 추가 -->
+    <link rel="icon" href="{% static 'icons/favicon.png' %}" type="image/png">
+    <link rel="shortcut icon" href="{% static 'icons/favicon.png' %}" type="image/png">
+    <!-- 기타 추가적인 헤드 요소가 필요하다면 여기에 추가 -->
+{% endblock %}
 
 {% block branding %}
 <h1 id="site-name" style="font-family: 'Roboto', sans-serif; font-weight: bold;">
