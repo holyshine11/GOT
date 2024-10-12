@@ -1,8 +1,20 @@
 {% extends "admin/base.html" %}
 {% load static %}
 {% load i18n %}
-
-{% block title %}호텔 미팅룸 {{ title }}{% endblock %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 관리</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* 공통 스타일 */
+        .admin-table { /* ... */ }
+        .form-control { /* ... */ }
+        .btn { /* ... */ }
+        /* 기타 공통 스타일 */
+    </style>
+</head>
 
 
 {% block extrahead %}
@@ -17,6 +29,11 @@
     <a href="{% url 'admin:index' %}">호텔 미팅룸 관리자</a>
 </h1>
 {% endblock %}
+
+<body>    
+    {% block form_content %}{% endblock %}
+    {% block extra_scripts %}{% endblock %}
+</body>
 
 
 {% block nav-global %}

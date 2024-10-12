@@ -1,0 +1,357 @@
+<!-- admin_update.html -->
+
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <style>
+
+        .username-cell {
+            padding-left: 30px !important;
+            margin: 20px;
+        }  
+
+        .admin-table {
+            border-spacing: 5px !important;
+            width: 100%;
+            margin: 20px;
+            border-collapse: collapse;
+            text-align: center;
+        }  
+
+        .admin-table th, .admin-table td {
+            padding: 8px 10px !important; /* 왼쪽 여백을 5px에서 10px로 조정 */
+            border: 1px solid #ccc;
+            vertical-align: middle;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .form-control {
+            height: 45px !important;
+            padding: 0 5px !important;
+            font-size: 14px !important;
+            text-decoration: none;
+            border-radius: 5px !important;
+            border: 1px solid #ccc !important;
+            box-sizing: border-box !important;
+            line-height: 45px !important;
+            width: 98% !important;
+            margin: 0 !important;
+            margin-left: 10px !important;
+        }
+
+        .admin-table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0px;
+        }
+
+        .btn, .search-form input, .form-control {
+            height: 45px;
+            padding: 0 20px;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            line-height: 45px;
+            margin-left: 10px;
+            width: 90%;
+        }
+
+        .btn {
+            text-align: center;
+            cursor: pointer;
+            color: white !important;
+        }
+
+        .btn-primary {
+            background-color: #2d4f65;
+            color: white !important;
+        }
+
+        .btn-primary:hover {
+            background-color: #1e3747;
+            color: white !important;
+        }
+
+        .btn-secondary {
+            background-color: #81afc6;
+            color: white !important;
+        }
+
+        .btn-secondary:hover {
+            opacity: 0.9;
+            color: white !important;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-small {
+            padding: 5px 15px;
+            height: auto;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .btn-inline {
+            display: inline-block;
+            width: auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            line-height: 1;
+            margin: 0 5px;
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+        .error-message {
+            text-align: left;
+            font-size: 12px;
+            color: red;
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+
+        .required {
+            color: red;
+            margin-left: 5px;
+        }
+
+        .fixed-width-select {
+            width: 20% !important;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+            const emailInput = document.querySelector("input[name='email']");
+
+            emailInput.addEventListener("input", function() {
+                const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const errorDiv = this.parentElement.querySelector(".error-message");
+
+                if (!pattern.test(this.value)) {
+                    if (!errorDiv) {
+                        const error = document.createElement("div");
+                        error.classList.add("error-message");
+                        error.textContent = "유효한 이메일 주소를 입력하세요.";
+                        this.parentElement.appendChild(error);
+                    }
+                } else {
+                    if (errorDiv) {
+                        errorDiv.remove();
+                    }
+                }
+            });
+
+            form.addEventListener("submit", function(event) {   
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(emailInput.value)) {
+                    event.preventDefault();
+                    alert("유효한 이메일 주소를 입력하세요.");
+                }
+            });
+        });
+    </script>
+</head>
+
+<div class="content">
+    <form method="post" action="{% url 'admin_update' profile.id %}">
+        {% csrf_token %}
+        <div class="header-container">
+            <h1>관리자 관리</h1>
+        </div>
+        <div class="header-container">
+            <h2>관리자 수정</h2> 
+            <p> "*" 항목은 필수 입력항목 입니다. </p>
+        </div>
+    
+        <table class="admin-table">
+            <colgroup>
+                <col style="width: 15%; vertical-align: middle;">
+                <col style="width: 85%; vertical-align: middle;">
+            </colgroup>
+
+            <!-- 사용자(User) 필드 (수정 불가) -->
+            <tr>
+                <th>아이디</th>
+                <td class="username-cell">{{ profile.user.username }}</td>
+            </tr>
+            <tr>
+                <th>
+                    {{ user_form.email.label }}
+                    {% if user_form.email.field.required %}
+                        <span class="required">*</span>
+                    {% endif %}
+                </th>
+                <td>
+                    <input type="email" name="email" value="{{ user_form.email.value|default_if_none:'' }}" placeholder="이메일을 입력하세요" class="form-control" {% if user_form.email.field.required %}required{% endif %}>
+                    {% if user_form.email.errors %}
+                        <div class="error-message">{{ user_form.email.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+
+            <!-- 프로필(Profile) 폼 필드 -->
+            <tr>
+                <th>
+                    {{ profile_form.manager_name.label }}
+                    {% if profile_form.manager_name.field.required %}
+                        <span class="required">*</span>
+                    {% endif %}
+                </th>
+                <td>
+                    <input type="text" name="manager_name" value="{{ profile_form.manager_name.value|default_if_none:'' }}" placeholder="담당자 이름을 입력하세요" class="form-control" {% if profile_form.manager_name.field.required %}required{% endif %}>
+                    {% if profile_form.manager_name.errors %}
+                        <div class="error-message">{{ profile_form.manager_name.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    {{ profile_form.position.label }}
+                    {% if profile_form.position.field.required %}
+                        <span class="required">*</span>
+                    {% endif %}
+                </th>
+                <td>
+                    <input type="text" name="position" value="{{ profile_form.position.value|default_if_none:'' }}" placeholder="직책을 입력하세요" class="form-control" {% if profile_form.position.field.required %}required{% endif %}>
+                    {% if profile_form.position.errors %}
+                        <div class="error-message">{{ profile_form.position.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    {{ profile_form.company.label }}
+                    {% if profile_form.company.field.required %}
+                        <span class="required">*</span>
+                    {% endif %}
+                </th>
+                <td>
+                    <input type="text" name="company" value="{{ profile_form.company.value|default_if_none:'' }}" placeholder="회사명을 입력하세요" class="form-control" {% if profile_form.company.field.required %}required{% endif %}>
+                    {% if profile_form.company.errors %}
+                        <div class="error-message">{{ profile_form.company.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    {{ profile_form.department.label }}
+                    {% if profile_form.department.field.required %}
+                        <span class="required">*</span>
+                    {% endif %}
+                </th>
+                <td>
+                    <input type="text" name="department" value="{{ profile_form.department.value|default_if_none:'' }}" placeholder="부서를 입력하세요" class="form-control" {% if profile_form.department.field.required %}required{% endif %}>
+                    {% if profile_form.department.errors %}
+                        <div class="error-message">{{ profile_form.department.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    {{ profile_form.company_contact.label }}
+                    {% if profile_form.company_contact.field.required %}
+                        <span class="required">*</span>
+                    {% endif %}
+                </th>
+                <td>
+                    <input type="text" name="company_contact" value="{{ profile_form.company_contact.value|default_if_none:'' }}" placeholder="회사 연락처를 입력하세요" class="form-control" {% if profile_form.company_contact.field.required %}required{% endif %}>
+                    {% if profile_form.company_contact.errors %}
+                        <div class="error-message">{{ profile_form.company_contact.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    {{ profile_form.manager_contact.label }}
+                    {% if profile_form.manager_contact.field.required %}
+                        <span class="required">*</span>
+                    {% endif %}
+                </th>
+                <td>
+                    <input type="text" name="manager_contact" value="{{ profile_form.manager_contact.value|default_if_none:'' }}" placeholder="담당자 연락처를 입력하세요" class="form-control" {% if profile_form.manager_contact.field.required %}required{% endif %}>
+                    {% if profile_form.manager_contact.errors %}
+                        <div class="error-message">{{ profile_form.manager_contact.errors|join:" " }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    {{ profile_form.role.label }}
+                    {% if profile_form.role.field.required %}
+                        <span class="required">*</span>
+                    {% endif %}
+                </th>
+                <td>
+                    <select name="role" class="form-control fixed-width-select" {% if profile_form.role.field.required %}required{% endif %}>
+                        <option value="">관리자 유형을 선택하세요</option>
+                        {% for choice in profile_form.role.field.choices %}
+                            <option value="{{ choice.0 }}" {% if profile_form.role.value == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                    {% if profile_form.role.errors %}
+                        <div class="error-message">{{ profile_form.role.errors|join:" " }}</div>
+                    {% endif %}                             
+                </td>
+            </tr>
+        </table>
+        <div class="button-group">
+            <button type="submit" class="btn btn-primary btn-inline">저장</button>
+            <button type="button" onclick="window.location.href='{% url 'admin_list' %}'" class="btn btn-secondary btn-inline">취소</button>
+        </div>            
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+            const emailInput = document.querySelector("input[name='email']");
+
+            emailInput.addEventListener("input", function() {
+                const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const errorDiv = this.parentElement.querySelector(".error-message");
+
+                if (!pattern.test(this.value)) {
+                    if (!errorDiv) {
+                        const error = document.createElement("div");
+                        error.classList.add("error-message");
+                        error.textContent = "유효한 이메일 주소를 입력하세요.";
+                        this.parentElement.appendChild(error);
+                    }
+                } else {
+                    if (errorDiv) {
+                        errorDiv.remove();
+                    }
+                }
+            });
+
+            form.addEventListener("submit", function(event) {   
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(emailInput.value)) {
+                    event.preventDefault();
+                    alert("유효한 이메일 주소를 입력하세요.");
+                }
+            });
+        });
+    </script>
+{% endblock %}

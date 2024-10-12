@@ -22,7 +22,7 @@ class Profile(models.Model):
     class Meta:
         verbose_name = _('관리자 관리')
         verbose_name_plural =_('관리자 관리')
-    
+        
     def __str__(self):
         return self.manager_name
     

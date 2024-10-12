@@ -4,6 +4,8 @@ from django.urls import path
 from .views import admin_create, admin_list, admin_detail, admin_update
 from . import views
 
+# app_name = 'admin_app'
+
 urlpatterns = [
     path('create/', views.admin_create, name='admin_create'),
     path('admin/list/', admin_list, name='admin_list'),

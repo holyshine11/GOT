@@ -147,8 +147,8 @@
                 <td>{{ admin.manager_contact }}</td>
                 <td>{{ admin.get_role_display }}</td>
                 <td>
-                    <a href="{% url 'admin_detail' admin.user.pk %}">상세</a>
-                    <a href="{% url 'admin_update' admin.user.pk %}">수정</a>
+                    <a href="{% url 'admin_detail' admin.pk %}">상세</a>
+                    <a href="{% url 'admin_update' admin.pk %}">수정</a>
                 </td>
             </tr>
             {% empty %}

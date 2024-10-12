@@ -1,0 +1,174 @@
+{% extends "admin/base_site.html" %} {% load static %} {% load i18n %}
+
+{% block content %}
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .admin-table {
+            border-spacing: 10px;
+            width: 100%;
+            margin:20px auto;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        .admin-table th, .admin-table td {
+            padding: 15px;
+            border: 1px solid #ccc;
+            vertical-align: middle;
+            font-size: 16px;
+            text-align: left;
+        }
+        .admin-table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .button-group {
+            position: relative;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn, .search-form input {
+            height: 40px;
+            padding: 0 15px;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            line-height: 40px;
+            margin-left: 10px;
+        }
+        .btn {
+            padding: 10px 20px; 
+            text-align: center;
+            cursor: pointer;
+            pointer-events: auto;
+            color: white !important;
+        }
+        .btn-primary {
+            background-color: #2d4f65;
+            color: white !important; /* 우선순위 높임 */
+        }
+        .btn-primary:hover {
+            background-color: #1e3747;
+            color: white !important; /* 우선순위 높임 */
+        }
+        .btn-secondary {
+            background-color: #81afc6;
+            color: white !important; /* 우선순위 높임 */
+        }
+        .btn-secondary:hover {
+            opacity: 0.9;
+            color: white !important; /* 우선순위 높임 */
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a, .pagination span {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 2px;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            color: #2d4f65;
+        }
+        .pagination a:hover {
+            background-color: #f0f0f0;
+        }
+        .pagination .current {
+            background-color: #2d4f65;
+            color: white;
+            border: 1px solid #2d4f65;
+        }
+        .search-form {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .search-form input {
+            flex: 1;
+            margin-right: 10px;
+            max-width: 200px;
+        }
+        .action-btns {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<div class="content">
+    <div class="header-container">
+        <h1>관리자 관리</h1>
+    </div>
+    <div class="header-container">
+        <h2>관리자 상세</h2>
+    </div>
+    <div class="header-container">
+        <table class="admin-table">
+            <colgroup>
+                <col style="width: 15%; vertical-align: middle;">
+                <col style="width: 85%; vertical-align: middle;">
+            </colgroup>
+            <tr>
+                <th>아이디</th>
+                <td>{{ profile.user.username }}</td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td>{{ profile.user.email }}</td>
+            </tr>
+            <tr>
+                <th>담당자 명</th>
+                <td>{{ profile.manager_name }}</td>
+            </tr>
+            <tr>
+                <th>직책/직급</th>
+                <td>{{ profile.position }}</td>
+            </tr>
+            <tr>
+                <th>회사명</th>
+                <td>{{ profile.company }}</td>
+            </tr>
+            <tr>
+                <th>부서</th>
+                <td>{{ profile.department }}</td>
+            </tr>
+            <tr>
+                <th>회사 연락처</th>
+                <td>{{ profile.company_contact }}</td>
+            </tr>
+            <tr>
+                <th>담당자 연락처</th>
+                <td>{{ profile.manager_contact }}</td>
+            </tr>
+            <tr>
+                <th>관리자 유형</th>
+                <td>{{ profile.get_role_display }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class = "button-group">
+        <a href="{% url 'admin_update' profile.id %}" class="btn btn-primary btn-inline"> 수정</a>
+        <a href="{% url 'admin_list' %}" class="btn btn-secondary">목록</a>
+    </div>      
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <script>
+                alert("{{ message }}");
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% endblock %}

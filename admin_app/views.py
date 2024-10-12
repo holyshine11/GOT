@@ -1,5 +1,11 @@
 # admin_app/views.py
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+from .forms import UserUpdateForm, ProfileUpdateForm
+from django.contrib import messages
 import re
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
@@ -7,7 +13,7 @@ from django.core.paginator import Paginator
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from .models import Profile
 from django import forms
@@ -141,27 +147,39 @@ def admin_list(request):
 
 @login_required
 def admin_detail(request, pk):
-    profile = Profile.objects.get(id=pk)
+    profile = get_object_or_404(Profile, id=pk)
     return render(request, 'admin/admin_detail.html', get_verbose_context(Profile, profile=profile))
+
 
 @login_required
 def admin_update(request, pk):
-    profile = Profile.objects.get(id=pk)
+    profile = get_object_or_404(Profile, id=pk)
+    user = profile.user  # 관련된 User 객체 가져오기
+
     if request.method == 'POST':
-        form = AdminRegistrationForm(request.POST, instance=profile.user)
-        if form.is_valid():
-            user = form.save(commit=False)
+        user_form = UserUpdateForm(request.POST, instance=user)
+        profile_form = ProfileUpdateForm(request.POST, instance=profile)
+        
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save(commit=False)
+            user.username = profile.user.username  # 기존 'username' 유지
             user.save()
-            # Profile 업데이트
-            profile.manager_name = form.cleaned_data['manager_name']
-            profile.position = form.cleaned_data['position']
-            profile.company = form.cleaned_data['company']
-            profile.department = form.cleaned_data['department']
-            profile.company_contact = form.cleaned_data['company_contact']
-            profile.manager_contact = form.cleaned_data['manager_contact']
-            profile.role = form.cleaned_data['role']
-            profile.save()
+            profile_form.save()
+            
+            # 성공 메시지 추가
+            messages.success(request, '수정이 완료되었습니다.')
+            
+            # 상세 페이지로 리디렉션
             return redirect('admin_detail', pk=profile.id)
+        else:
+            # 폼이 유효하지 않을 경우 오류 메시지 표시 (템플릿에서 자동 처리됨)
+            pass
     else:
-        form = AdminRegistrationForm(instance=profile.user)
-    return render(request, 'admin/admin_update.html', get_verbose_context(Profile, form=form, profile=profile))
+        user_form = UserUpdateForm(instance=user)
+        profile_form = ProfileUpdateForm(instance=profile)
+    
+    return render(request, 'admin/admin_update.html', {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'profile': profile,
+    })
