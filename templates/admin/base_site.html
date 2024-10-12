@@ -5,7 +5,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>관리자 관리</title>
+    <title>{% block title %}관리자 페이지{% endblock %}</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
     <style>
         /* 공통 스타일 */
@@ -13,10 +13,12 @@
         .form-control { /* ... */ }
         .btn { /* ... */ }
         /* 기타 공통 스타일 */
-    </style>
+    </style>  
+    {% block extra_head %}
+    {% endblock %}
 </head>
 
-
+<body>
 {% block extrahead %}
     <!-- 파비콘 링크 추가 -->
     <link rel="icon" href="{% static 'icons/favicon.png' %}" type="image/png">
@@ -24,24 +26,21 @@
     <!-- 기타 추가적인 헤드 요소가 필요하다면 여기에 추가 -->
 {% endblock %}
 
-{% block branding %}
-<h1 id="site-name" style="font-family: 'Roboto', sans-serif; font-weight: bold;">
-    <a href="{% url 'admin:index' %}">호텔 미팅룸 관리자</a>
-</h1>
-{% endblock %}
-
-<body>    
-    {% block form_content %}{% endblock %}
-    {% block extra_scripts %}{% endblock %}
-</body>
-
-
 {% block nav-global %}
 <div id="user-tools">
     <strong>{{ user.username }}</strong> &mdash;
     <a href="{% url 'admin:password_change' %}">{% trans 'Password change' %}</a> /
     <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
 </div>
+{% endblock %}
+
+
+
+
+{% block branding %}
+<h1 id="site-name" style="font-family: 'Roboto', sans-serif; font-weight: bold;">
+    <a href="{% url 'admin:index' %}">호텔 미팅룸 관리자</a>
+</h1>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -53,7 +52,7 @@
 </div>
 {% endblock %}
 
-{% block content %}
+{% block main_content %}
 <div id="content" class="colM">
     <h1>{{ title }}</h1>
     {% if subtitle %}
@@ -68,4 +67,9 @@
     {% endif %}
     {{ content }}
 </div>
+{% endblock %}  <!-- endblock 추가 -->
+
+{% block extra_scripts %}
 {% endblock %}
+</body>
+</html>

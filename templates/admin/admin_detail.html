@@ -7,7 +7,7 @@
         .admin-table {
             border-spacing: 10px;
             width: 100%;
-            margin:20px auto;
+            margin: 20px auto;
             border-collapse: collapse;
             text-align: left;
         }
@@ -29,43 +29,58 @@
             margin-bottom: 10px;
         }
         .button-group {
-            position: relative;
-            text-align: center;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 15px;
             margin-top: 20px;
         }
         .btn, .search-form input {
             height: 40px;
-            padding: 0 15px;
+            padding: 0 10px;
             font-size: 16px;
             text-decoration: none;
             border-radius: 5px;
             border: 1px solid #ccc;
             box-sizing: border-box;
-            line-height: 40px;
+            /* line-height 제거 */
             margin-left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .btn {
-            padding: 10px 20px; 
-            text-align: center;
+            padding: 0 20px; /* 패딩 조정 */
             cursor: pointer;
             pointer-events: auto;
             color: white !important;
         }
         .btn-primary {
             background-color: #2d4f65;
-            color: white !important; /* 우선순위 높임 */
+            color: white !important;
         }
         .btn-primary:hover {
             background-color: #1e3747;
-            color: white !important; /* 우선순위 높임 */
+            color: white !important;
         }
         .btn-secondary {
             background-color: #81afc6;
-            color: white !important; /* 우선순위 높임 */
+            color: white !important;
         }
         .btn-secondary:hover {
             opacity: 0.9;
-            color: white !important; /* 우선순위 높임 */
+            color: white !important;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white !important;
+            border: 1px solid #dc3545;
+        }
+    
+        .btn-danger:hover {
+            background-color: #c82333;
+            color: white !important;
+            border: 1px solid #bd2130;
         }
         .pagination {
             text-align: center;
@@ -101,6 +116,27 @@
             display: flex;
             justify-content: center;
             gap: 10px;
+        }
+    
+        .username-cell {
+            padding-left: 30px !important; /* 왼쪽 패딩 조정 */
+        }
+    
+        .error-message {
+            text-align: left;
+            font-size: 12px;
+            color: red;
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+    
+        .required {
+            color: red;
+            margin-left: 5px;
+        }
+    
+        .fixed-width-select {
+            width: 20% !important;
         }
     </style>
 </head>
@@ -156,19 +192,33 @@
             </tr>
         </table>
     </div>
-    <div class = "button-group">
-        <a href="{% url 'admin_update' profile.id %}" class="btn btn-primary btn-inline"> 수정</a>
+    <div class="button-group">
+        <form method="post" action="{% url 'admin_delete' profile.id %}" class="delete-form" onsubmit="return confirmDelete();">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">삭제</button>
+        </form>
+        <a href="{% url 'admin_update' profile.id %}" class="btn btn-primary">수정</a>
         <a href="{% url 'admin_list' %}" class="btn btn-secondary">목록</a>
     </div>      
 </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script>
+        // 삭제 확인 함수
+        function confirmDelete() {
+            if (confirm("정말 삭제하시겠습니까?")) {
+                return true; // 확인 시 삭제 진행
+            } else {
 
-{% if messages %}
-    {% for message in messages %}
-        {% if message.tags == 'success' %}
+                return false; // 삭제 진행하지 않음
+            }
+        }
+    </script>
+    {% if messages %}
+        {% for message in messages %}
             <script>
-                alert("{{ message }}");
+                alert("{{ message }}"); // 메시지 알림
             </script>
-        {% endif %}
-    {% endfor %}
-{% endif %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}

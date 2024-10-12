@@ -183,3 +183,17 @@ def admin_update(request, pk):
         'profile_form': profile_form,
         'profile': profile,
     })
+
+@login_required
+def admin_delete(request, pk):
+    profile = get_object_or_404(Profile, id=pk)
+    user = profile.user  # 관련된 User 객체 가져오기
+
+    if request.method == 'POST':
+        profile.delete()
+        user.delete()  # User도 함께 삭제하려면 주석을 해제하세요.
+        messages.success(request, '관리자가 성공적으로 삭제되었습니다.')
+        return redirect('admin_list')
+    else:
+        # GET 요청 시, 상세 페이지로 리디렉션
+        return redirect('admin_detail', pk=pk)
