@@ -1,0 +1,112 @@
+/* admin_detail.css */
+
+/* 헤더 스타일 */
+.header-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    width: 100%;
+}
+
+.header-container h2 {
+    grid-column: 1;
+}
+
+.header-container p {
+    grid-column: 2;
+    white-space: nowrap;
+}
+
+/* 테이블 스타일 */
+.admin-detail {
+    background-color: #ffffff;
+    width: 100%;
+}
+
+.info-table {
+    padding: 10px 20px;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    border: 1px solid #ccc;
+}
+
+.info-table th, .info-table td {
+    border-bottom: 1px solid #e0e0e0;
+    border-right: 1px solid #ccc;
+    padding: 10px 20px;
+    text-align: left;
+}
+
+.info-table th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+}
+
+.info-table td {
+    background-color: #ffffff;
+}
+
+.info-table th:last-child, .info-table td:last-child {
+    border-right: none;
+}
+
+.info-table tr:last-child th, .info-table tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* 버튼 기본 스타일 */
+
+.button-group {
+    display: flex;
+    justify-content: center; /* 버튼을 가운데 정렬 */
+    align-items: center; /* 버튼을 수직 방향으로 가운데 정렬 */
+    gap: 10px; /* 버튼 사이의 간격 */
+    margin-top: 20px;
+    flex-wrap: nowrap; /* 모든 버튼을 한 줄에 나열 */
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white !important; /* 강제적으로 텍스트 색상을 하얗게 설정 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+/* 삭제 버튼 스타일 */
+.btn-danger {
+    background: linear-gradient(to right, #d9534f, #c12e2a);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-danger:hover {
+    background: linear-gradient(to right, #c12e2a, #a22c21);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 수정 버튼 스타일 */
+.btn-primary {
+    background: linear-gradient(to right, #337ab7, #2e6da4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(to right, #2e6da4, #245580);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 목록 버튼 스타일 */
+.btn-secondary {
+    background: linear-gradient(to right, #5bc0de, #31b0d5);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(to right, #31b0d5, #29a3c6);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}

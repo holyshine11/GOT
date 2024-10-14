@@ -1,24 +1,15 @@
+<!-- templates/admin/base_site.html -->
+
 {% extends "admin/base.html" %}
 {% load static %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}관리자 페이지{% endblock %}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
-    <style>
-        /* 공통 스타일 */
-        .admin-table { /* ... */ }
-        .form-control { /* ... */ }
-        .btn { /* ... */ }
-        /* 기타 공통 스타일 */
-    </style>  
-    {% block extra_head %}
-    {% endblock %}
-</head>
 
-<body>
+{% block extra_head %}
+    <!-- 추가적인 CSS 파일 로드 -->
+    <link rel="stylesheet" href="{% static 'css/admin_detail.css' %}?v=1.0">
+    <!-- 필요시 다른 CSS 파일도 추가 -->
+{% endblock %}
+
 {% block extrahead %}
     <!-- 파비콘 링크 추가 -->
     <link rel="icon" href="{% static 'icons/favicon.png' %}" type="image/png">
@@ -27,49 +18,15 @@
 {% endblock %}
 
 {% block nav-global %}
-<div id="user-tools">
-    <strong>{{ user.username }}</strong> &mdash;
-    <a href="{% url 'admin:password_change' %}">{% trans 'Password change' %}</a> /
-    <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
-</div>
+    <div id="user-tools">
+        <strong>{{ user.username }}</strong> &mdash;
+        <a href="{% url 'admin:password_change' %}">{% trans 'Password change' %}</a> /
+        <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+    </div>
 {% endblock %}
-
-
-
 
 {% block branding %}
-<h1 id="site-name" style="font-family: 'Roboto', sans-serif; font-weight: bold;">
-    <a href="{% url 'admin:index' %}">호텔 미팅룸 관리자</a>
-</h1>
+    <h1 id="site-name" style="font-family: 'Roboto', sans-serif; font-weight: bold;">
+        <a href="{% url 'admin:index' %}">호텔 미팅룸 관리자</a>
+    </h1>
 {% endblock %}
-
-{% block breadcrumbs %}
-<div class="breadcrumbs">
-    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
-    {% for item in breadcrumb_items %}
-        &rsaquo; <a href="{{ item.url }}">{{ item.name }}</a>
-    {% endfor %}
-</div>
-{% endblock %}
-
-{% block main_content %}
-<div id="content" class="colM">
-    <h1>{{ title }}</h1>
-    {% if subtitle %}
-        <div id="subtitle">{{ subtitle }}</div>
-    {% endif %}
-    {% if messages %}
-        <ul class="messagelist">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-    {{ content }}
-</div>
-{% endblock %}  <!-- endblock 추가 -->
-
-{% block extra_scripts %}
-{% endblock %}
-</body>
-</html>

@@ -1,0 +1,125 @@
+/* static/css/admin.css */
+
+/* 공통 테이블 스타일 */
+.admin-table {
+    border-spacing: 5px !important;
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.admin-table th, .admin-table td {
+    padding: 8px 10px !important;
+    border: 1px solid #ccc;
+    vertical-align: middle;
+    font-size: 16px;
+    text-align: left;
+}
+
+.admin-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* 공통 버튼 스타일 */
+.btn, .search-form input, .form-control {
+    height: 45px;
+    padding: 0 20px;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    line-height: 45px;
+    margin-left: 10px;
+    width: auto; /* 버튼의 고정 너비 제거 */
+}
+
+.btn {
+    text-align: center;
+    cursor: pointer;
+    color: white !important;
+}
+
+.btn-primary {
+    background-color: #2d4f65;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background-color: #1e3747;
+    color: white !important;
+}
+
+.btn-secondary {
+    background-color: #81afc6;
+    color: white !important;
+}
+
+.btn-secondary:hover {
+    opacity: 0.9;
+    color: white !important;
+}
+
+/* 공통 검색 폼 스타일 */
+.search-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.search-form input {
+    flex: 1;
+    margin-right: 10px;
+    max-width: 200px;
+    height: 45px;
+    padding: 0 20px;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    line-height: 45px;
+    width: 90%;
+}
+
+/* 공통 버튼 그룹 스타일 */
+.button-group {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 공통 에러 메시지 스타일 */
+.error-message {
+    text-align: left;
+    font-size: 12px;
+    color: red;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.required {
+    color: red;
+    margin-left: 5px;
+}
+
+.fixed-width-select {
+    width: 20% !important;
+}
+
+/* 링크 버튼 스타일 (공통) */
+.btn-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    color: #2d4f65;
+    text-decoration: underline;
+}
+
+.btn-link:hover {
+    color: #1e3747;
+}
