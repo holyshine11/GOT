@@ -6,6 +6,11 @@
 
 {% block extrahead %}
     <link rel="stylesheet" href="{% static 'css/admin_detail.css' %}?v=1.2">
+    <script>
+        function confirmDelete() {
+            return confirm("정말 삭제하시겠습니까?");
+        }
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -71,20 +76,10 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script>
-        // 삭제 확인 함수
-        function confirmDelete() {
-            if (confirm("정말 삭제하시겠습니까?")) {
-                return true; // 확인 시 삭제 진행
-            } else {
-                return false; // 삭제 진행하지 않음
-            }
-        }
-    </script>
     {% if messages %}
         {% for message in messages %}
             <script>
-                alert("{{ message }}"); // 메시지 알림
+                alert("{{ message }}");
             </script>
         {% endfor %}
     {% endif %}
