@@ -7,6 +7,8 @@ from .views import AdminRegistrationForm
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 
+from hotels.models import Hotel
+
 
 @admin.register(MeetingRoom)
 class MeetingRoomAdmin(admin.ModelAdmin):
@@ -26,3 +28,18 @@ class ProfileAdmin(admin.ModelAdmin):
         return HttpResponseRedirect(reverse('admin_list'))
 
 admin.site.register(Profile, ProfileAdmin)
+
+
+@admin.register(Hotel)
+class HotelAdmin(admin.ModelAdmin):
+    list_display = ('name', 'address', 'contact_number', 'email', 'created_at', 'updated_at')
+    search_fields = ('name', 'address', 'email')
+    list_filter = ('created_at', 'updated_at')
+    
+    def add_view(self, request, form_url='', extra_context=None):
+        # 사용자 정의 호텔 생성 뷰로 리다이렉트
+        return HttpResponseRedirect(reverse('hotel_create'))
+    
+    def changelist_view(self, request, extra_context=None):
+        # 사용자 정의 호텔 리스트 뷰로 리다이렉트
+        return HttpResponseRedirect(reverse('hotel_list'))

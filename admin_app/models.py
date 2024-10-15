@@ -1,6 +1,6 @@
 # admin_app/models.py
 
-from django.db import models
+from django.db import models 
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
@@ -38,17 +38,3 @@ class MeetingRoom(models.Model):
     
     def __str__(self):
         return self.name
-
-class Reservation(models.Model):
-    room = models.ForeignKey(MeetingRoom, on_delete=models.CASCADE)
-    reserved_by = models.CharField(max_length=100)
-    date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-
-    class Meta:
-        verbose_name = _('예약 관리')
-        verbose_name_plural = _('예약 관리')
-        
-    def __str__(self):
-        return f"{self.room.name} - {self.date} {self.start_time} to {self.end_time}"

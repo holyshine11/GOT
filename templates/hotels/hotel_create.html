@@ -1,0 +1,143 @@
+<!-- admin_create.html -->
+
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/admin_create.css' %}">
+    <!-- 카카오 주소 API 스크립트 -->
+    <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const usernameInput = document.querySelector("input[name='username']");
+            const form = document.querySelector("form");
+
+            usernameInput.addEventListener("input", function() {
+                const pattern = /^[A-Za-z0-9]{8,20}$/;
+                const errorDiv = this.parentElement.querySelector(".username-error");
+
+                if (!pattern.test(this.value)) {
+                    if (!errorDiv) {
+                        const error = document.createElement("div");
+                        error.classList.add("error-message", "username-error");
+                        error.textContent = "아이디는 8~20자의 영문 대소문자 및 숫자만 사용할 수 있습니다.";
+                        this.parentElement.appendChild(error);
+                    }
+                } else {
+                    if (errorDiv) {
+                        errorDiv.remove();
+                    }
+                }
+            });
+
+            form.addEventListener("submit", function(event) {
+                const pattern = /^[A-Za-z0-9]{8,20}$/;
+                if (!pattern.test(usernameInput.value)) {
+                    event.preventDefault();
+                    alert("아이디는 8~20자의 영문 대소문자 및 숫자만 사용할 수 있습니다.");
+                }
+            });
+        });
+
+        // 주소 검색 함수
+        function openPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    var postalCode = data.zonecode; // 우편번호
+                    var address = '';
+                    if (data.userSelectedType === 'R') { // 도로명 주소
+                        address = data.roadAddress;
+                    } else { // 지번 주소
+                        address = data.jibunAddress;
+                    }
+        
+                    // 우편번호와 주소 입력 필드에 값 설정
+                    document.getElementById('id_postal_code').value = postalCode;
+                    document.getElementById('id_address').value = address;
+        
+                    // 상세 주소 입력 필드 포커스
+                    document.getElementById('id_detail_address').focus();
+                }
+            }).open();
+        }
+    </script>
+</head>
+
+<div class="content">
+    <form method="post" action="{% url 'hotel_create' %}">
+        {% csrf_token %}
+        <div class="header-container">
+            <h1>호텔 관리</h1>
+        </div>
+        <div class="header-container">
+            <h2>호텔 등록</h2> <p> "*" 항목은 필수 입력항목 입니다. </p>
+        </div>
+
+        <table class="admin-table">
+            <colgroup>
+                <col style="width: 15%; vertical-align: middle;">
+                <col style="width: 85%; vertical-align: middle;">
+            </colgroup>
+
+            <table class="form-table">
+                <tr>
+                    <th>호텔명 *</th>
+                    <td>
+                        {{ form.name.errors }}
+                        {{ form.name }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>우편번호 *</th>
+                    <td>
+                        {{ form.postal_code.errors }}
+                        {{ form.postal_code }}
+                        <button type="button" class="btn btn-secondary" onclick="openPostcode();">검색</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>주소 *</th>
+                    <td>
+                        {{ form.address.errors }}
+                        {{ form.address }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>상세 주소</th>
+                    <td>
+                        {{ form.detail_address.errors }}
+                        {{ form.detail_address }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>연락처 *</th>
+                    <td>
+                        {{ form.contact_number.errors }}
+                        {{ form.contact_number }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td>
+                        {{ form.email.errors }}
+                        {{ form.email }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>호텔 설명</th>
+                    <td>
+                        {{ form.description.errors }}
+                        {{ form.description }}
+                    </td>
+                </tr>
+            </table>
+            <div class="button-group">
+                <button type="submit" class="btn btn-success">등록</button>
+                <a href="{% url 'hotel_list' %}" class="btn btn-secondary">목록</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

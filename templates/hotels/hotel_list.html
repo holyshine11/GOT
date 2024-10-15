@@ -1,0 +1,93 @@
+<!-- hotel_list.html -->
+{% extends "admin/base_site.html" %} {% load static %} {% load i18n %}
+
+{% block content %}
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/hotel_list.css' %}">
+</head>
+    
+<div class="content">
+    <div class="header-container">
+        <h1>호텔 관리</h1>
+    </div>
+    <div class="header-container">
+        <h2>호텔 조회</h2>
+    </div>
+
+<!-- 검색 폼 -->
+<form method="get" action="{% url 'hotel_list' %}" class="search-form">
+    <input type="text" name="name" placeholder="호텔명" value="{{ query_name }}">
+    <button type="submit" class="btn btn-primary">검색</button>
+    <a href="{% url 'hotel_list' %}" class="btn btn-secondary">초기화</a>
+</form>
+
+
+
+<div class="hotel-list">
+    <div class="header-container">
+        <h2>호텔 목록</h2>
+    </div>
+    <div class="button-group">
+        <a href="{% url 'hotel_create' %}" class="btn btn-primary">호텔 등록</a>
+    </div>
+    <table class="hotel-table">
+        <thead>
+            <tr>
+                <th>호텔명</th>
+                <th>주소</th>
+                <th>연락처</th>
+                <th>이메일</th>
+                <th>설명</th>
+                <th>등록일</th>
+                <th>수정일</th>
+                <th>작업</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hotel in hotels %}
+            <tr>
+                <td>{{ hotel.name }}</td>
+                <td>{{ hotel.address }}</td>
+                <td>{{ hotel.contact_number }}</td>
+                <td>{{ hotel.email }}</td>
+                <td>{{ hotel.description|truncatechars:50 }}</td>
+                <td>{{ hotel.created_at|date:"Y-m-d H:i" }}</td>
+                <td>{{ hotel.updated_at|date:"Y-m-d H:i" }}</td>
+                <td>
+                    <a href="{% url 'hotel_detail' hotel.pk %}" class="btn btn-secondary">상세</a>
+                    <a href="{% url 'hotel_update' hotel.pk %}" class="btn btn-primary">수정</a>
+                    <a href="{% url 'hotel_delete' hotel.pk %}" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9">등록된 호텔이 없습니다.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination">
+        {% if is_paginated %}
+            <span>
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+            <div>
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">이전</a>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <strong>{{ num }}</strong>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <a href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">다음</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
