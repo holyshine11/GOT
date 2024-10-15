@@ -1,0 +1,95 @@
+.body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+}
+.content {
+    margin: 0px;
+}
+
+.header-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    width: 100%;
+}
+
+.header-container h1, .header-container h2 {
+    color: #000;
+    margin-bottom: 15px;
+}
+.search-form {
+    margin-bottom: 20px;
+}
+.search-form input[type="text"] {
+    padding: 10px;
+    width: 250px;
+    font-size: 16px;
+}
+.search-form .btn {
+    padding: 10px 15px;
+    margin-left: 5px;
+    font-size: 16px;
+    color: #fff !important;
+}
+.hotel-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.hotel-table th, .hotel-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+    vertical-align: middle; /* 테이블 내 텍스트 상하 센터 정렬 */
+}
+.hotel-table th {
+    background-color: #f2f2f2;
+    font-weight: 700;
+}
+.button-group {
+    margin-bottom: 15px;
+    text-align: right; /* 호텔 등록 버튼을 오른쪽에 배치 */
+}
+.pagination {
+    margin-top: 20px;
+    font-size: 16px;
+}
+.pagination a, .pagination strong {
+    margin-right: 5px;
+    text-decoration: none;
+    color: #007bff;
+}
+.btn {
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 16px;
+}
+/* 특정 버튼에만 텍스트 색상을 하얀색으로 적용 */
+.btn-white-text {
+    color: #fff !important;
+}
+.btn-primary {
+    background-color: #2d4f65;
+}
+.btn-primary:hover {
+    background-color: #2d4f65;
+}
+.btn-secondary {
+    background-color: #81afc6;
+}
+.btn-secondary:hover {
+    background-color: #81afc6;
+}
+.btn-danger {
+    background-color: #dc3545;
+}
+.btn-danger:hover {
+    background-color: #c82333;
+}
+.hotel-table td a.btn {
+    margin: 0 2px; /* 버튼 간격 조절 */
+}
+

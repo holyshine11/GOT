@@ -3,121 +3,10 @@
 
 {% block content %}
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
-    <style>
-        .admin-table {
-            border-spacing: 10px;
-            width: 100%;
-            margin: 20px auto;
-            border-collapse: collapse;
-            text-align: center;  /* 전체 테이블의 텍스트를 중앙 정렬 */
-        }
-        .admin-table th, .admin-table td {
-            padding: 15px;
-            border: 1px solid #ccc;  /* 모든 셀의 테두리를 동일하게 설정 */
-            vertical-align: middle;
-            font-size: 16px;
-            text-align: center;  /* 테이블 헤더와 셀의 텍스트를 일관되게 중앙 정렬 */
-        }
-        .admin-table th {
-            background-color: #f5f5f5;
-            font-weight: bold;
-        }
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .btn, .search-form input {
-            height: 40px;
-            padding: 0 15px;
-            font-size: 16px;
-            text-decoration: none;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            line-height: 40px;
-            margin-left: 10px;
-        }
-        .btn {
-            text-align: center;
-            cursor: pointer;
-            color: white !important; /* 우선순위 높임 */
-        }
-        .btn-primary {
-            background-color: #2d4f65;
-            color: white !important; /* 우선순위 높임 */
-        }
-        .btn-primary:hover {
-            background-color: #1e3747;
-            color: white !important; /* 우선순위 높임 */
-        }
-        .btn-secondary {
-            background-color: #81afc6;
-            color: white !important; /* 우선순위 높임 */
-        }
-        .btn-secondary:hover {
-            opacity: 0.9;
-            color: white !important; /* 우선순위 높임 */
-        }
-        .pagination {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .pagination a, .pagination span {
-            display: inline-block;
-            padding: 8px 16px;
-            margin: 2px;
-            border: 1px solid #ddd;
-            text-decoration: none;
-            color: #2d4f65;
-        }
-        .pagination a:hover {
-            background-color: #f0f0f0;
-        }
-        .pagination .current {
-            background-color: #2d4f65;
-            color: white;
-            border: 1px solid #2d4f65;
-        }
-        .search-form {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .search-form input {
-            flex: 1;
-            margin-right: 10px;
-            max-width: 200px;
-        }
-        .action-btns {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        .messages {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0;
-        }
-        .messages li {
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-        }
-        .messages li.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .messages li.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        /* 기타 메시지 타입에 대한 스타일 추가 */
-    </style>
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'css/admin_list.css' %}">
+<link rel="stylesheet" href="{% static 'css/pagination.css' %}">
+{% endblock %}
 </head>
     
 <div class="content">
@@ -141,64 +30,47 @@
         <h2>관리자 목록</h2>
         <a href="{% url 'admin_create' %}" class="btn btn-secondary">{% trans '신규등록' %}</a>
     </div>
-    <table class="admin-table">
-        <thead>
-            <tr>
-                <th>{% trans 'no' %}</th>
-                <th>{% trans '아이디' %}</th>
-                <th>{% trans '담당자 명' %}</th>
-                <th>{% trans '회사명' %}</th>
-                <th>{% trans '부서' %}</th>
-                <th>{% trans '직책' %}</th>
-                <th>{% trans '회사 연락처' %}</th>
-                <th>{% trans '담당자 연락처' %}</th>
-                <th>{% trans '관리자유형' %}</th>
-                <th>{% trans '수정' %}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for admin in page_obj %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ admin.user }}</td>
-                <td>{{ admin.manager_name }}</td>
-                <td>{{ admin.company }}</td>
-                <td>{{ admin.department }}</td>
-                <td>{{ admin.position }}</td>
-                <td>{{ admin.company_contact }}</td>
-                <td>{{ admin.manager_contact }}</td>
-                <td>{{ admin.get_role_display }}</td>
-                <td>
-                    <a href="{% url 'admin_detail' admin.pk %}">상세</a>
-                    <a href="{% url 'admin_update' admin.pk %}">수정</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="10">{% trans '관리자가 없습니다.' %}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <table class="admin-table">
+            <p>총 {{ page_obj.paginator.count }}건</p>
+            <thead>
+                <tr>
+                    <th>{% trans 'no' %}</th>
+                    <th>{% trans '아이디' %}</th>
+                    <th>{% trans '담당자 명' %}</th>
+                    <th>{% trans '회사명' %}</th>
+                    <th>{% trans '부서' %}</th>
+                    <th>{% trans '직책' %}</th>
+                    <th>{% trans '회사 연락처' %}</th>
+                    <th>{% trans '담당자 연락처' %}</th>
+                    <th>{% trans '관리자유형' %}</th>
+                    <th>{% trans '수정' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admin in page_obj %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ admin.user }}</td>
+                    <td>{{ admin.manager_name }}</td>
+                    <td>{{ admin.company }}</td>
+                    <td>{{ admin.department }}</td>
+                    <td>{{ admin.position }}</td>
+                    <td>{{ admin.company_contact }}</td>
+                    <td>{{ admin.manager_contact }}</td>
+                    <td>{{ admin.get_role_display }}</td>
+                    <td>
+                        <a href="{% url 'admin_detail' admin.pk %}">상세</a>
+                        <a href="{% url 'admin_update' admin.pk %}">수정</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="10">{% trans '관리자가 없습니다.' %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <div class="pagination">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; 처음</a>
-            <a href="?page={{ page_obj.previous_page_number }}">&lt; 이전</a>
-        {% endif %}
 
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <span class="current">{{ num }}</span>
-            {% else %}
-                <a href="?page={{ num }}">{{ num }}</a>
-            {% endif %}
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">다음 &gt;</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">마지막 &raquo;</a>
-        {% endif %}
-    </div>
-</div>
+{% include 'includes/pagination.html' with extra_params="" %}
 {% endblock %}

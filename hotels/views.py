@@ -12,15 +12,25 @@ class HotelListView(ListView):
     model = Hotel
     template_name = 'hotels/hotel_list.html'
     context_object_name = 'hotels'
-    paginate_by = 20
+    paginate_by = 3
 
-    def get(self, request):
-        query_name = request.GET.get('name', '')
+    def get_queryset(self):
+        query_name = self.request.GET.get('name', '')
         if query_name:
-            hotels = Hotel.objects.filter(name__icontains=query_name)
+            return Hotel.objects.filter(name__icontains=query_name)
         else:
-            hotels = Hotel.objects.all()
-        return render(request, self.template_name, {'hotels': hotels, 'query_name': query_name})
+            return Hotel.objects.all()
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['query_name'] = self.request.GET.get('name', '')
+    #     context['hotels'] = self.object_list
+    #     return context
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query_name'] = self.request.GET.get('name', '')
+        return context  # 'hotels' 변수를 설정하지 않습니다.
 
 
 class HotelDetailView(DetailView):
