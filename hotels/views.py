@@ -12,7 +12,7 @@ class HotelListView(ListView):
     model = Hotel
     template_name = 'hotels/hotel_list.html'
     context_object_name = 'hotels'
-    paginate_by = 3
+    paginate_by = 10
 
     def get_queryset(self):
         query_name = self.request.GET.get('name', '')
@@ -20,12 +20,6 @@ class HotelListView(ListView):
             return Hotel.objects.filter(name__icontains=query_name)
         else:
             return Hotel.objects.all()
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['query_name'] = self.request.GET.get('name', '')
-    #     context['hotels'] = self.object_list
-    #     return context
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -52,7 +46,7 @@ class HotelCreateView(View):
         if form.is_valid():
             form.save()
             messages.success(request, "호텔이 성공적으로 등록되었습니다.")
-            return redirect('hotel_list')  # 네임스페이스 없이 URL 이름으로 리다이렉트
+            return redirect('hotel_list')
         return render(request, self.template_name, {'form': form})
 
 

@@ -1,0 +1,186 @@
+/* hotel_create.css */
+
+.admin-table {
+    border-spacing: 5px !important;
+    width: 100%;
+    margin: 10px auto;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.admin-table th, .admin-table td {
+    padding: 8px 10px !important;
+    border: 1px solid #ccc;
+    vertical-align: middle;
+    font-size: 16px;
+    text-align: left;
+}
+
+.form-control {
+    height: 45px !important;
+    padding: 0 10px !important;
+    font-size: 14px !important;
+    border-radius: 5px !important;
+    border: 1px solid #ccc !important;
+    box-sizing: border-box !important;
+    width: 98% !important;
+    margin: 0.1% !important;
+    margin-left: 10px !important;
+    vertical-align: middle;
+}
+
+.postal-code-input {
+    width: 10% !important; /* 너비를 조정합니다 */
+    max-width: 150px; /* 최대 너비를 설정할 수 있습니다 */
+}
+
+.admin-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    text-align: center;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0px;
+}
+
+.btn {
+    height: 45px;
+    padding: 0 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    line-height: 45px;
+    margin-left: 10px;
+    width: auto;
+    text-align: center;
+    cursor: pointer;
+    color: white !important;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: #2d4f65;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background-color: #1e3747;
+    color: white !important;
+}
+
+.btn-secondary {
+    background-color: #81afc6;
+    color: white !important;
+}
+
+.btn-secondary:hover {
+    opacity: 0.9;
+    color: white !important;
+}
+
+.button-group {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-inline {
+    display: inline-block;
+    width: auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    line-height: 1;
+    margin: 0 5px;
+    height: 40px;
+    box-sizing: border-box;
+}
+
+.error-message {
+    text-align: left;
+    font-size: 12px;
+    color: red;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.required {
+    color: red;
+    margin-left: 5px;
+}
+
+/* 추가된 스타일 */
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.input-group .form-control {
+    width: auto !important;
+    flex-grow: 1;
+    margin-left: 0 !important;
+    margin-right: 10px;
+}
+
+.input-group .btn {
+    width: auto;
+    padding: 0 20px;
+    margin-left: 0;
+    height: 45px;
+    line-height: 45px;
+}
+
+.fixed-width-select {
+    width: 10% !important;
+}
+
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 0 20px;
+    height: 45px;
+    line-height: 45px;
+    font-size: 16px;
+    color: white !important;
+    background-color: #81afc6;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin-left: 10px;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+#preview-image {
+    max-width: 200px;
+    max-height: 200px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+#logo-remove {
+    display: inline-block;
+    padding: 0 20px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    color: white !important;
+    background-color: #d9534f;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin-left: 10px;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+#ogo-remove:hover {
+    background-color: #c9302c;
+}
